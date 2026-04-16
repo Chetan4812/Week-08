@@ -1,9 +1,3 @@
-"""
-Week 08 · Tuesday Daily Assignment
-Hospital Data Analysis — All 7 Sub-steps
-PG Diploma · AI-ML & Agentic AI Engineering · IIT Gandhinagar
-"""
-
 import numpy as np
 import pandas as pd
 import matplotlib
@@ -360,7 +354,7 @@ class ThreeLayerNN:
 
 def prepare_features(df: pd.DataFrame):
     """Split cleaned DataFrame into X (features) and y (target)."""
-    target_col = next((c for c in df.columns if "readmit" in c.lower()), None)
+    target_col = next((c for c in df.columns if "readmission" in c.lower()), None)
     if target_col is None:
         raise ValueError("No readmission target column found.")
     y = df[target_col].values.astype(float)
@@ -599,7 +593,7 @@ def accuracy_trap_demonstration(
         columns=["Pred 0","Pred 1"]))
 
     # ── Fixed pipeline: LR with class_weight='balanced' ───
-    lr_fixed = LogisticRegression(max_iter=1000, class_weight="balanced", random_state=42)
+    lr_fixed = LogisticRegression(max_iter=1000, random_state=42, class_weight="balanced")
     lr_fixed.fit(X_train_s, y_train)
     y_fixed = lr_fixed.predict(X_test_s)
     y_fixed_prob = lr_fixed.predict_proba(X_test_s)[:, 1]
@@ -704,12 +698,7 @@ def embedding_approach(
     emb_2d = pca.fit_transform(emb_test)
 
     fig, axes = plt.subplots(1, 2, figsize=(12, 5))
-    for ax, (data_2d, title) in zip(axes, [
-        (emb_2d, "NN Embeddings (PCA 2D)"),
-        (pca.transform(PCA(n_components=2, random_state=42).fit(X_test_s).transform(X_test_s)
-                       if False else emb_2d), ""),  # placeholder
-    ]):
-        pass  # handled below
+    # Removed problematic for loop as plotting is handled explicitly below.
 
     # Embeddings scatter
     ax = axes[0]
